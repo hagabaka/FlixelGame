@@ -3,12 +3,11 @@ import Random;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
-import openfl.geom.Point;
 
-class Grid
+class Grid extends FlxObject
 {
 	private var letterRows:Array<Array<Letter>> = [];
-	private static var letterSize:Float = 48;
+	public static var letterSize:Float = 48;
 	private var mouseEventManager:FlxMouseEventManager = new FlxMouseEventManager();
 	private var selectedLetters:Array<Letter> = [];
 	private var selectionStart:Letter = null;
@@ -16,20 +15,21 @@ class Grid
 	
 	public function new(columnCount:Int, rowCount:Int, state:FlxState) 
 	{
+		super(0, 0, letterSize * columnCount, letterSize * rowCount);
+		FlxMouseEventManager.init();
+		FlxMouseEventManager.add(this, null, onMouseUp, null, onMouseOut, true, true);
 		var fontSize:Int = Std.int(letterSize * 0.5);
 		for (rowIndex in 0...rowCount) {
 			var row:Array<Letter> = [];
 			for (columnIndex in 0...columnCount) {
-				var position = positionForCell(columnIndex, rowIndex);
-				var letter:Letter = new Letter(Random.string(1, "abcdefghijklmnopqrstuvwxyz"), this, position.x, position.y, letterSize, fontSize, state);
-				letter.gridPosition = new GridPosition(columnIndex, rowIndex);
+				var letter:Letter = new Letter(Random.string(1, "abcdefghijklmnopqrstuvwxyz"), this, new GridPosition(columnIndex, rowIndex), letterSize, fontSize, state);
 				row.push(letter);
 			}
 			letterRows.push(row);
 		}
 	}
 	
-	public function update(elapsed:Float) {
+	override public function update(elapsed:Float) {
 		for (row in letterRows) {
 			for (letter in row) {
 				letter.update(elapsed);
@@ -39,7 +39,7 @@ class Grid
 	
 	public function selectLetters(from:Letter, to:Letter) {
 		var gridLine = new GridLine(from.gridPosition, to.gridPosition);
-		
+
 		for (row in letterRows) {
 			for (letter in row) {
 				letter.selected = gridLine.contains(letter.gridPosition);
@@ -47,24 +47,20 @@ class Grid
 		}
 	}
 	
-	public function onMouseDown(letter:Letter) {
+	public function onMouseDownLetter(letter:Letter) {
 		selectionStart = letter;
-		trace("onMouseDown");
 	}
 	
-	public function onMouseUp(letter:Letter) {
-		selectionStart = null;
-		trace("onMouseUp");
-	}
-	
-	public function onMouseOver(letter:Letter) {
+	public function onMouseOverLetter(letter:Letter) {
 		if(selectionStart != null) {
 			selectLetters(selectionStart, letter);
-			trace("selectLetters");
 		}
 	}
+
+	public function onMouseUp(_) {
+		selectionStart = null;
+	}
 	
-	private function positionForCell(columnIndex:Int, rowIndex:Int) {
-		return new Point(columnIndex * letterSize, rowIndex * letterSize);
+	public function onMouseOut(_) {
 	}
 }
