@@ -61,5 +61,51 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="polygonal-ds" level="project" />
+    <orderEntry type="library" name="random" level="project" />
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/flixel-addons/2,0,0">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel-addons/2,0,0" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel-addons/2,0,0" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/random/1,4,1/src">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/random/1,4,1/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/random/1,4,1/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/polygonal-ds/1,4,1">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/polygonal-ds/1,4,1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/polygonal-ds/1,4,1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/polygonal-printf/1,0,2-beta">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/polygonal-printf/1,0,2-beta" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/polygonal-printf/1,0,2-beta" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

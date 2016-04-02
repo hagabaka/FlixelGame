@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="random">
+    <CLASSES>
+      <root url="file://C:/HaxeToolkit/haxe/lib/random" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://C:/HaxeToolkit/haxe/lib/random" />
+    </SOURCES>
+  </library>
+</component>
