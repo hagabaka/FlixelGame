@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FlixelGame.iml" filepath="$PROJECT_DIR$/FlixelGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FlixelGameAndroid.iml" filepath="$PROJECT_DIR$/FlixelGameAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FlixelGameFlash.iml" filepath="$PROJECT_DIR$/FlixelGameFlash.iml" />
     </modules>
   </component>
 </project>
-

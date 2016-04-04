@@ -1,5 +1,7 @@
 package;
 
+using GridLine.CriteriaExtension;
+
 class Range {
 	private var min:Int;
 	private var max:Int;
@@ -15,14 +17,14 @@ enum Criteria {
 	Equal(position:Int);
 	Between(range:Range);
 }
-class CriteriaMaker {
-	public static function fromRange(from:Int, to:Int):Criteria {
+class CriteriaExtension {
+	public static function fromRange(_:Enum<Criteria>, from, to) {
 		var min = Std.int(Math.min(from, to));
 		var max = Std.int(Math.max(from, to));
 		if (min == max) {
-			return Equal(min);
+			return Criteria.Equal(min);
 		} else {
-			return Between(new Range(min, max));
+			return Criteria.Between(new Range(min, max));
 		}
 	}
 }
@@ -36,8 +38,8 @@ class GridLine
 
 	public function new(from:GridPosition, to:GridPosition) 
 	{
-		rowCriteria = CriteriaMaker.fromRange(from.row, to.row);
-		columnCriteria = CriteriaMaker.fromRange(from.column, to.column);
+		rowCriteria = Criteria.fromRange(from.row, to.row);
+		columnCriteria = Criteria.fromRange(from.column, to.column);
 		this.from = from;
 		this.to = to;
 	}
