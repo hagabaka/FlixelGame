@@ -1,61 +1,54 @@
 package;
 
-using GridLine.CriteriaExtension;
-
-class Range {
-	private var min:Int;
-	private var max:Int;
-	public function new(min, max) {
-		this.min = min;
-		this.max = max;
-	}
-	public function contains(value) {
-		return value >= min && value <= max;
-	}
+enum GridLineParameters {
+	Horizontal(row:Int, columns:IntIterator);
+	Vertical(column:Int, rows:IntIterator);
+	Diagonal(intercept:Int, columns:IntIterator);
+	Invalid;
 }
-enum Criteria {
-	Equal(position:Int);
-	Between(range:Range);
-}
-class CriteriaExtension {
-	public static function fromRange(_:Enum<Criteria>, from, to) {
-		var min = Std.int(Math.min(from, to));
-		var max = Std.int(Math.max(from, to));
-		if (min == max) {
-			return Criteria.Equal(min);
-		} else {
-			return Criteria.Between(new Range(min, max));
-		}
-	}
-}
-
 class GridLine
 {
-	private var rowCriteria:Criteria;
-	private var columnCriteria:Criteria;
-	private var from:GridPosition;
-	private var to:GridPosition;
+	var containedPositions:Array<GridPosition> = new Array();
 
 	public function new(from:GridPosition, to:GridPosition) 
 	{
-		rowCriteria = Criteria.fromRange(from.row, to.row);
-		columnCriteria = Criteria.fromRange(from.column, to.column);
-		this.from = from;
-		this.to = to;
-	}
-	
-	public function contains(position:GridPosition):Bool {
-		switch([rowCriteria, columnCriteria]) {
-			case [Equal(row), Between(columnRange)]:
-				return row == position.row && columnRange.contains(position.column);
-			case [Between(rowRange), Equal(column)]:
-				return rowRange.contains(position.row) && column == position.column;
-			default:
-				return false;
+		var parameters:GridLineParameters = GridLineParameters.Invalid;
+		if (from.column == to.column) {
+			parameters = GridLineParameters.Vertical(from.column, range(from.row, to.row));
+		} else if (from.row == to.row) {
+			parameters = GridLineParameters.Horizontal(from.row, range(from.column, to.column));
+		} else if (Math.abs(from.column - to.column) == Math.abs(from.row - to.row)) {
+			parameters = GridLineParameters.Diagonal(from.row - from.column, range(from.column, to.column));
 		}
+
+		switch(parameters) {
+			case GridLineParameters.Vertical(column, rows):
+				for (row in rows) {
+					containedPositions.push(new GridPosition(column, row));
+				}
+			case GridLineParameters.Horizontal(row, columns):
+				for (column in columns) {
+					containedPositions.push(new GridPosition(column, row));
+				}
+			case GridLineParameters.Diagonal(intercept, columns):
+				for (column in columns) {
+					containedPositions.push(new GridPosition(column, column + intercept));
+				}
+			case GridLineParameters.Invalid:
+		}
+		trace(containedPositions);
 	}
-	
-	public function isValid():Bool {
-		return from.row == to.row || from.column == to.column;
+
+	public function contains(position):Bool {
+		trace(containedPositions);
+		return containedPositions.indexOf(position, 0) >= 0;
+	}
+
+	static function range(from, to):IntIterator {
+		if (to < from) {
+			return to ... from + 1;
+		} else {
+			return from ... to + 1;
+		}
 	}
 }
