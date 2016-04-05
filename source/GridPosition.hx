@@ -14,4 +14,8 @@ class GridPosition
 		this.row = row;
 		this.column = column;
 	}
+
+    public function equals(gridPosition:GridPosition):Bool {
+        return row == gridPosition.row && column == gridPosition.column;
+    }
 }

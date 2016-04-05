@@ -1,9 +1,10 @@
 package;
 
+import Lambda;
 enum GridLineParameters {
 	Horizontal(row:Int, columns:IntIterator);
 	Vertical(column:Int, rows:IntIterator);
-	Diagonal(intercept:Int, columns:IntIterator);
+    Diagonal(slope:Int, startRow:Int, columns:IntIterator);
 	Invalid;
 }
 class GridLine
@@ -17,9 +18,19 @@ class GridLine
 			parameters = GridLineParameters.Vertical(from.column, range(from.row, to.row));
 		} else if (from.row == to.row) {
 			parameters = GridLineParameters.Horizontal(from.row, range(from.column, to.column));
-		} else if (Math.abs(from.column - to.column) == Math.abs(from.row - to.row)) {
-			parameters = GridLineParameters.Diagonal(from.row - from.column, range(from.column, to.column));
-		}
+        } else if (from.column - to.column == from.row - to.row) {
+            parameters = GridLineParameters.Diagonal(
+                1,
+                from.column > to.column ? to.row : from.row,
+                range(from.column, to .column)
+            );
+        } else if (from.column - to.column == to.row - from.row) {
+            parameters = GridLineParameters.Diagonal(
+                -1,
+                from.column > to.column ? to.row : from.row,
+                range(from.column, to .column)
+            );
+        }
 
 		switch(parameters) {
 			case GridLineParameters.Vertical(column, rows):
@@ -30,18 +41,23 @@ class GridLine
 				for (column in columns) {
 					containedPositions.push(new GridPosition(column, row));
 				}
-			case GridLineParameters.Diagonal(intercept, columns):
+            case GridLineParameters.Diagonal(slope, startRow, columns):
+                var distance = 0;
 				for (column in columns) {
-					containedPositions.push(new GridPosition(column, column + intercept));
+                    containedPositions.push(new GridPosition(
+                    column,
+                    startRow + slope * distance
+                    ));
+                    distance++;
 				}
 			case GridLineParameters.Invalid:
 		}
-		trace(containedPositions);
 	}
 
-	public function contains(position):Bool {
-		trace(containedPositions);
-		return containedPositions.indexOf(position, 0) >= 0;
+    public function contains(position:GridPosition):Bool {
+        return Lambda.find(containedPositions, function(gridPosition:GridPosition) {
+            return gridPosition.equals(position);
+        }) != null;
 	}
 
 	static function range(from, to):IntIterator {
