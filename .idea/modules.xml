@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FlixelGameAndroid.iml" filepath="$PROJECT_DIR$/FlixelGameAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/FlixelGameFlash.iml" filepath="$PROJECT_DIR$/FlixelGameFlash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FlixelGameHTML5.iml" filepath="$PROJECT_DIR$/FlixelGameHTML5.iml" />
     </modules>
   </component>
 </project>
